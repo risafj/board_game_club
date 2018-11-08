@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  favorite_game: one
+  available_days: one
+
+two:
+  name: MyString
+  favorite_game: two
+  available_days: two
