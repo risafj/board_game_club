@@ -1,3 +1,0 @@
-class Weekday < ApplicationRecord
-    
-end

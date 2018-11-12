@@ -2,8 +2,8 @@ class CreateMembers < ActiveRecord::Migration[5.2]
   def change
     create_table :members do |t|
       t.string :name
-      t.references :favorite_game, foreign_key: true
-      t.references :available_days, foreign_key: true
+      t.references :favorite_game, index: true
+      # t.references :available_days, index: true
 
       t.timestamps
     end
