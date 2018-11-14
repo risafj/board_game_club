@@ -4,4 +4,5 @@ class Member < ApplicationRecord
   
   # Says "go to Game table, use id column as the foreign key"
   belongs_to :favorite_game, class_name: "Game"
+  belongs_to :available_days, class_name: "Weekday"
 end

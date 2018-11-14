@@ -3,7 +3,6 @@ class CreateMembers < ActiveRecord::Migration[5.2]
     create_table :members do |t|
       t.string :name
       t.references :favorite_game, index: true
-      # t.references :available_days, index: true
 
       t.timestamps
     end
