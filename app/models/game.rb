@@ -1,3 +1,5 @@
 class Game < ApplicationRecord
-    has_many :members, foreign_key: "favorite_game"
+  validates :name, presence: true
+  
+  has_many :members, foreign_key: "favorite_game"
 end

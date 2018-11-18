@@ -1,7 +1,17 @@
 require 'test_helper'
 
 class GameTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
+  # def setup
+  #   Rails.application.load_seed
   # end
+  
+  test "game cannot have blank name" do
+    game = Game.new(name: nil)
+    assert_not game.save
+    game.name = ""
+    assert_not game.save
+    game.name = "Clue"
+    assert game.save
+  end
+  
 end
