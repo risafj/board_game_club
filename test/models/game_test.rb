@@ -1,9 +1,6 @@
 require 'test_helper'
 
 class GameTest < ActiveSupport::TestCase
-  # def setup
-  #   Rails.application.load_seed
-  # end
   
   test "game cannot have blank name" do
     game = Game.new(name: nil)

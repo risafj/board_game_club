@@ -6,7 +6,7 @@ end
     Weekday.create(name: day)
 end
 
-# For has_and_belongs_to_many, you have to pass an array or an active record collection proxy (Weekday.where...)
-5.times do |n|
+# For has_and_belongs_to_many, you have to pass an array or an active record collection proxy, i.e. objects retrieved via associations (e.g. Weekday.where...).
+(1..5).each do |n|
     Member.create!(name: "Member#{n}", available_days: [Weekday.first, Weekday.second], favorite_game: Game.first)
 end
