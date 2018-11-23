@@ -4,6 +4,6 @@ module MemberHelper
   end
 
   def default_member_2
-    Member.create(name: "Blob", favorite_game: Game.first, available_days: [Weekday.third], friends: [Member.first])
+    Member.create(name: "Tester2", favorite_game: Game.first, available_days: [Weekday.third], friends: [Member.first])
   end
 end
