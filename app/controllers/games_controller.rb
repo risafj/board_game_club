@@ -13,10 +13,11 @@ class GamesController < ApplicationController
     p "This deletes games"
     game_to_delete = Game.all.find_by(name: game_params[:name])
     game_to_delete.destroy
-    display = game_to_delete.errors.messages.presence ? game_to_delete.errors : "game_to_delete"
+    display = game_to_delete.errors.messages.presence ? game_to_delete.errors : game_to_delete
     render json: display
   end
 
+  private
   def game_params
     params.require(:game).permit(:name)
   end
