@@ -1,17 +1,15 @@
 class MembersController < ApplicationController
   skip_before_action :verify_authenticity_token
   
-  # Not sure if the below is going to work for the items that have to be arrays (days, friends).
-  # Also, the foreign key items (everything but name) has to be find_by ...
+ 
   def create
     new_member = Member.create(
       name: member_params[:name],
-      favorite_game: Game.find_by(name: member_params[:game]),
-      # How does this work when what you're passing is an array?
-      available_days: member_params[:available_days],
-      friends: member_params[:friends]
+      favorite_game: Game.find_by(name: member_params[:favorite_game]),
+      available_days: member_params[:available_days].map { |day| Weekday.find_by(name: day) },
+      friends: member_params[:friends].map { |friend| Member.find_by(name: friend) }
       )
-    display = new_member.errors.messages.presence ? new_members.errors : new_member
+    display = new_member.errors.messages.presence ? new_member.errors : new_member
     render json: display
   end
 
@@ -24,9 +22,9 @@ class MembersController < ApplicationController
 
   def add_friend
   member = member_params[:name]
-  new_friends = member_params[:friends]
+  new_friends = member_params[:friends].each { |friend| Member.find_by(name: friend) }
   member.update(friends: new_friends)
-  display = false
+  display = member.errors.messages.presence ? new_members.errors : new_member
     render json: display
   
   end
@@ -34,9 +32,11 @@ class MembersController < ApplicationController
   def delete_friend
   end
   
+  # Passing an array as strong params can be done by declaring an empty array, as below.
+  # https://stackoverflow.com/questions/16549382/how-to-permit-an-array-with-strong-parameters
   private
   def member_params
-    params.require(:member).permit(:name, :favorite_game, :available_days, :friends)
+    params.require(:member).permit(:name, :favorite_game, available_days: [], friends: [])
   end
 
 end

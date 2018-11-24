@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_18_031026) do
+ActiveRecord::Schema.define(version: 2018_11_23_034442) do
 
   create_table "games", force: :cascade do |t|
     t.string "name"
@@ -29,9 +29,7 @@ ActiveRecord::Schema.define(version: 2018_11_18_031026) do
     t.integer "favorite_game_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "friends_id"
     t.index ["favorite_game_id"], name: "index_members_on_favorite_game_id"
-    t.index ["friends_id"], name: "index_members_on_friends_id"
     t.index ["name"], name: "index_members_on_name", unique: true
   end
 
