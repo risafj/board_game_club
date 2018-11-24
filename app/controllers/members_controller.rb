@@ -9,7 +9,19 @@ class MembersController < ApplicationController
       available_days: member_params[:available_days].map { |day| Weekday.find_by(name: day) },
       friends: member_params[:friends].map { |friend| Member.find_by(name: friend) }
       )
-    display = new_member.errors.messages.presence ? new_member.errors : new_member
+    # display = new_member.errors.messages.presence ? new_member.errors : new_member
+
+    display =
+      if new_member.errors.messages.presence 
+        new_member.errors
+      else{
+        name: new_member.name,
+        favorite_game: new_member.favorite_game.name,
+        available_days: new_member.available_days.pluck(:name),
+        friends: new_member.friends.pluck(:name),
+      }.to_json
+      end
+
     render json: display
   end
 
@@ -24,7 +36,7 @@ class MembersController < ApplicationController
   member = member_params[:name]
   new_friends = member_params[:friends].each { |friend| Member.find_by(name: friend) }
   member.update(friends: new_friends)
-  display = member.errors.messages.presence ? new_members.errors : new_member
+  display = member.errors.messages.presence ? member.errors : new_member
     render json: display
   
   end
