@@ -9,7 +9,6 @@ class MembersController < ApplicationController
       available_days: member_params[:available_days].map { |day| Weekday.find_by(name: day) },
       friends: member_params[:friends].map { |friend| Member.find_by(name: friend) }
       )
-    # display = new_member.errors.messages.presence ? new_member.errors : new_member
 
     display =
       if new_member.errors.messages.presence 
@@ -19,9 +18,10 @@ class MembersController < ApplicationController
         favorite_game: new_member.favorite_game.name,
         available_days: new_member.available_days.pluck(:name),
         friends: new_member.friends.pluck(:name),
-      }.to_json
+      }
       end
 
+    # Declaring that you are rendering a json as below is essentially the same as going {hash: value}.to_json
     render json: display
   end
 
