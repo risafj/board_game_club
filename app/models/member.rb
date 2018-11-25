@@ -8,6 +8,7 @@ class Member < ApplicationRecord
  
   # Modeled on
   # https://stackoverflow.com/questions/2168442/many-to-many-relationship-with-the-same-model-in-rails
+  # Join tables have no id column on the very left. Instead, they just have the foreign_key column and the association_foreign_key column.
   has_and_belongs_to_many(:friends, class_name: "Member",
     join_table: "member_friendships",
     foreign_key: "member_a_id",
