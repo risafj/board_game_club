@@ -3,11 +3,12 @@ class MembersController < ApplicationController
   
  
   def create
+    # [].compact removes all nil values from an array.
     new_member = Member.create(
       name: member_params[:name],
       favorite_game: Game.find_by(name: member_params[:favorite_game]),
       available_days: member_params[:available_days].map { |day| Weekday.find_by(name: day) },
-      friends: member_params[:friends].map { |friend| Member.find_by(name: friend) }
+      friends: member_params[:friends].map { |friend| Member.find_by(name: friend) }.compact!
       )
       
     # If you want to customise the json to be rendered in the response, make your own hash and do to_json.
@@ -15,10 +16,11 @@ class MembersController < ApplicationController
       if new_member.errors.messages.presence 
         new_member.errors
       else {
+        message: "Member created",
         name: new_member.name,
         favorite_game: new_member.favorite_game.name,
         available_days: new_member.available_days.pluck(:name),
-        friends: new_member.friends.pluck(:name),
+        friends: new_member.friends.pluck(:name)
       }
       end
 
@@ -34,20 +36,25 @@ class MembersController < ApplicationController
     render json: display
   end
 
-  def add_friend
+  def add_friends
     # member = Member.find_by(id: add_friends[:id])
-    # The above would not throw an error if the ID isn't valid, it would just equate to nil.
-    # The below would immediately throw an error.
+    # find_by would not throw an error if the id isn't valid, it would just equate to nil.
+    # find would immediately throw an error if the id does not exist.
     member = Member.find(params[:id])
-    new_friends = Member.where(name: add_friend_params[:friends]).where.not(id: member.friends.pluck(:id))
-    member.update(friends: current_friends << new_friends)
-    display = member.errors.messages.presence ? member.errors : {message: "Friends added", friends: member.friends.pluck(:name)}
+
+    # .where returns an active record relation (array-like object).
+    # https://stackoverflow.com/questions/9574659/rails-where-vs-find/9574674#9574674
+    new_friends = Member.where(name: add_delete_friend_params[:friends]).where.not(id: member.friends.pluck(:id))
+    member.update(friends: member.friends << new_friends)
+    display = member.errors.messages.presence ? member.errors : {message: "The following friends have been added", friends: member.friends.pluck(:name)}
     render json: display
   end
 
-  def delete_friend
-    member =  Member.find_by(name: member_params[:name])
-    friend_to_delete 
+  def delete_friends
+    member = Member.find(params[:id])
+    member.friends.where(name: add_delete_friend_params[:friends]).destroy
+    display = member.errors.messages.presence ? member.errors : {message: "The requested friends have been deleted"}
+    render json: display
   end
   
   # Passing an array as strong params can be done by declaring an empty array, as below.
@@ -57,7 +64,7 @@ class MembersController < ApplicationController
     params.require(:member).permit(:name, :favorite_game, available_days: [], friends: [])
   end
   
-  def add_friend_params
+  def add_delete_friend_params
     params.require(:member).permit(friends: [])
   end
 end

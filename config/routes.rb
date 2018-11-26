@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   delete 'games/', to: 'games#delete'
   post 'member/', to: 'members#create'
   delete 'member/', to: 'members#delete'
-  post 'member/:id/friends', to: 'members#add_friend'
-  delete 'member/:id/friends', to: 'members#delete_friend'
+  post 'member/:id/friends', to: 'members#add_friends'
+  delete 'member/:id/friends', to: 'members#delete_friends'
   
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   
