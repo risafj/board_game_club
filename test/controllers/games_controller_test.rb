@@ -21,5 +21,4 @@ class GamesControllerTest < ActionDispatch::IntegrationTest
     # As for the messages for specific errors, run the test without the below line and instead with byebug at the end, and see what the actual response is (response.body). Then, write the line below.
     assert response.body.include? "has already been taken"
   end
-
 end

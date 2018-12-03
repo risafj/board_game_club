@@ -1,14 +1,14 @@
 class MembersController < ApplicationController
   skip_before_action :verify_authenticity_token
   
- 
   def create
-    # [].compact removes all nil values from an array.
+    # [].compact removes all nil values from an array and returns the modified array.
+    # [].compact! doesn't work in the case below, because it returns nil if no changes were made.
     new_member = Member.create(
       name: member_params[:name],
       favorite_game: Game.find_by(name: member_params[:favorite_game]),
       available_days: member_params[:available_days].map { |day| Weekday.find_by(name: day) },
-      friends: member_params[:friends].map { |friend| Member.find_by(name: friend) }.compact!
+      friends: member_params[:friends].map { |friend| Member.find_by(name: friend) }.compact
       )
       
     # If you want to customise the json to be rendered in the response, make your own hash and declare as json.
