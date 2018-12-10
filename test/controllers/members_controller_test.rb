@@ -18,6 +18,7 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
   post '/member/1/friends', params: @duplicated_friendship_params
   assert_response :success
   assert response.body.include? "Member3"
+  # "string".scan() - scans a string for matches, gives you back an array.
   assert_equal 1, response.body.scan("Member3").length
   end
 

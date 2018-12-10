@@ -9,8 +9,8 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   test "adding as friend only works one way" do
-    member1 = default_member
-    member2 = default_member2
+    member1 = wednesday_member
+    member2 = friend_of_wednesday_member
 
     assert_not member2.friends.blank?
     assert member1.friends.blank?

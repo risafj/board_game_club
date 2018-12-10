@@ -18,7 +18,7 @@ class GamesControllerTest < ActionDispatch::IntegrationTest
     # :bad_request is another way to say status 400. You can google the name for each status code. You can also pass an explicit number like assert_response(400)
     # https://api.rubyonrails.org/v5.2.1/classes/ActionDispatch/Assertions/ResponseAssertions.html
     assert_response :bad_request
-    # As for the messages for specific errors, run the test without the below line and instead with byebug at the end, and see what the actual response is (response.body). Then, write the line below.
+    # To see what the response is when writing a test, you can put byebug at the end and go response.body
     assert response.body.include? "has already been taken"
   end
 end

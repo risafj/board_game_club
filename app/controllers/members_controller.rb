@@ -67,8 +67,9 @@ class MembersController < ApplicationController
   # https://stackoverflow.com/questions/16549382/how-to-permit-an-array-with-strong-parameters
   private
 
+  # TODO: use this method
   def create_return_json(object_to_error_check, success_message)
-    object_to_error_check.errors.messages.presence? ? object_to_error_check.messages : {message: success_message}
+    object_to_error_check.errors.messages.present? ? object_to_error_check.messages : {message: success_message}
   end
 
   def member_params

@@ -11,12 +11,12 @@ class WeekdayTest < ActiveSupport::TestCase
 
   test "member count goes up if member is added to a specific day" do
     assert_not Weekday.third.members.present?
-    # Create a member with weekday 3
+    wednesday_member
     assert Weekday.third.members.present?
   end
 
   test "member count goes down if member is deleted from a specific day" do
-    member = default_member
+    member = wednesday_member
     assert_not Weekday.third.members.blank?
 
     member.destroy
