@@ -7,10 +7,12 @@ class MembersController < ApplicationController
     new_member = Member.create(
       name: member_params[:name],
       favorite_game: Game.find_by(name: member_params[:favorite_game]),
-      # TODO: Weekday.where(name: member_params[available days])
-      available_days: member_params[:available_days].map { |day| Weekday.find_by(name: day) },
-      # TODO: same as above?
-      friends: member_params[:friends].map { |friend| Member.find_by(name: friend) }.compact
+      available_days: Weekday.where(name: member_params[:available_days]),
+      # TO ASK: is it more efficient to do where than map - i.e.oes it hit the db fewer times? Or does it just look cleaner?
+      # available_days: member_params[:available_days].map { |day| Weekday.find_by(name: day) },
+      friends: Member.where(name:  member_params[:friends]).compact
+      # friends: member_params[:friends].map { |friend| Member.find_by(name: friend) }.compact
+      
       )
       
     # If you want to customize the json to be rendered in the response, make your own hash and declare as json.
@@ -69,7 +71,8 @@ class MembersController < ApplicationController
 
   # TODO: use this method
   def create_return_json(object_to_error_check, success_message)
-    object_to_error_check.errors.messages.present? ? object_to_error_check.messages : {message: success_message}
+    object_to_error_check.errors.messages.presence ? object_to_error_check.messages : {message: success_message}
+    # present? ?
   end
 
   def member_params
