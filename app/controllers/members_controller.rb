@@ -15,29 +15,23 @@ class MembersController < ApplicationController
       
       )
       
-    # If you want to customize the json to be rendered in the response, make your own hash and declare as json.
-    display =
-      if new_member.errors.messages.presence 
-        new_member.errors
-      else {
+    # If you want to customize the json to be rendered in the response, make your own hash and render as json.
+    # Or make your own hash and do {}.to_json.
+    success_message_json = {
         message: "Member created",
         name: new_member.name,
         favorite_game: new_member.favorite_game.name,
         available_days: new_member.available_days.pluck(:name),
         friends: new_member.friends.pluck(:name)
-      }
-      end
-
-    # Declaring that you are rendering a json as below is essentially the same as going {hash: value}.to_json
-    render json: display
+        }
+    
+    render json: create_return_json(new_member, success_message_json)
   end
 
   def delete
     member_to_delete = Member.find_by(name: member_params[:name])
     member_to_delete.destroy
-    # TODO: update with create json method
-    display = member_to_delete.errors.messages.presence ? member_to_delete.errors : {name: member_to_delete.name}
-    render json: display
+    render json: create_return_json(member_to_delete, "Member has been deleted")
   end
 
   def add_friends
@@ -48,10 +42,12 @@ class MembersController < ApplicationController
 
     # .where returns an active record relation (array-like object).
     # https://stackoverflow.com/questions/9574659/rails-where-vs-find/9574674#9574674
-
     new_friends = Member.where(name: friends_relationship_params[:friends]).where.not(id: member.friends.pluck(:id))
-    # TODO:  @author.books << @book1
-    member.update(friends: member.friends << new_friends)
+
+    # Modeled on below as to how to add new items to a has_many relation.
+    # https://guides.rubyonrails.org/association_basics.html#methods-added-by-has-many-collection-object
+    member.friends << new_friends
+    
     render json: create_return_json(member, "The following friends have been added - #{new_friends.pluck(:name)}")
   end
 
@@ -71,7 +67,7 @@ class MembersController < ApplicationController
 
   # TODO: use this method
   def create_return_json(object_to_error_check, success_message)
-    object_to_error_check.errors.messages.presence ? object_to_error_check.messages : {message: success_message}
+    object_to_error_check.errors.messages.presence ? object_to_error_check.errors.messages : {message: success_message}
     # present? ?
   end
 
