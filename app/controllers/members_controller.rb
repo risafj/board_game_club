@@ -61,16 +61,14 @@ class MembersController < ApplicationController
     render json: create_return_json(member, "The requested friends have been deleted")
   end
   
-  # Passing an array as strong params can be done by declaring an empty array, as below.
-  # https://stackoverflow.com/questions/16549382/how-to-permit-an-array-with-strong-parameters
   private
-
-  # TODO: use this method
   def create_return_json(object_to_error_check, success_message)
     object_to_error_check.errors.messages.presence ? object_to_error_check.errors.messages : {message: success_message}
     # present? ?
   end
 
+  # Passing an array as strong params can be done by declaring an empty array, as below.
+  # https://stackoverflow.com/questions/16549382/how-to-permit-an-array-with-strong-parameters
   def member_params
     params.require(:member).permit(:name, :favorite_game, available_days: [], friends: [])
   end
