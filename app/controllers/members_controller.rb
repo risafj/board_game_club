@@ -8,11 +8,9 @@ class MembersController < ApplicationController
       name: member_params[:name],
       favorite_game: Game.find_by(name: member_params[:favorite_game]),
       available_days: Weekday.where(name: member_params[:available_days]),
-      # TO ASK: is it more efficient to do where than map - i.e.oes it hit the db fewer times? Or does it just look cleaner?
+      # TO ASK: is it more efficient to do where than map - i.e.does it hit the db fewer times? Or does it just look cleaner?
       # available_days: member_params[:available_days].map { |day| Weekday.find_by(name: day) },
       friends: Member.where(name:  member_params[:friends]).compact
-      # friends: member_params[:friends].map { |friend| Member.find_by(name: friend) }.compact
-      
       )
       
     # If you want to customize the json to be rendered in the response, make your own hash and render as json.
@@ -44,7 +42,7 @@ class MembersController < ApplicationController
     # https://stackoverflow.com/questions/9574659/rails-where-vs-find/9574674#9574674
     new_friends = Member.where(name: friends_relationship_params[:friends]).where.not(id: member.friends.pluck(:id))
 
-    # Modeled on below as to how to add new items to a has_many relation.
+    # How to add new items to a has_many relation:
     # https://guides.rubyonrails.org/association_basics.html#methods-added-by-has-many-collection-object
     member.friends << new_friends
     
@@ -64,7 +62,6 @@ class MembersController < ApplicationController
   private
   def create_return_json(object_to_error_check, success_message)
     object_to_error_check.errors.messages.presence ? object_to_error_check.errors.messages : {message: success_message}
-    # present? ?
   end
 
   # Passing an array as strong params can be done by declaring an empty array, as below.
