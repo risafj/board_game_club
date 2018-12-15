@@ -1,0 +1,77 @@
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+    - 'bin/**/*'
+    - 'spec/fixtures/**/*'
+    - 'db/schema.rb'
+    - 'db/seeds.rb'
+  TargetRubyVersion: 2.3
+
+Rails:
+  Enabled: true
+
+# 子Class/Moduleの指定方法
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# 行の長さの制限を80->120に変更
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - 'config/initializers/*'
+
+Style/Documentation:
+  Enabled: false
+
+Layout/SpaceBeforeFirstArg:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 50
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/MultilineBlockChain:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 22
+  Exclude:
+    - 'db/migrate/*'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/routes.rb'
+    - 'app/admin/*'
+    - 'config/environments/*'
+
+Rails/Output:
+  Exclude:
+
+Security/MarshalLoad:
+  Exclude:
+
+Bundler/OrderedGems:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Exclude:
+
+Style/NumericPredicate:
+  Exclude:
+
+Rails/NotNullColumn:
+  Exclude:
+    - 'db/**/*.rb'
+
+Metrics/ClassLength:
+  Max: 150
+  Exclude:
+    - 'test/**/*'
+
+Rails/SkipsModelValidations:
+  Enabled: false

@@ -4,7 +4,7 @@ require 'rails/test_help'
 
 # Refer to below link on how to use the minitest-reporters gem
 # https://github.com/kern/minitest-reporters
-require "minitest/reporters"
+require 'minitest/reporters'
 Minitest::Reporters.use!
 
 class ActiveSupport::TestCase

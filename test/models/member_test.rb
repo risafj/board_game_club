@@ -8,7 +8,7 @@ class MemberTest < ActiveSupport::TestCase
     Rails.application.load_seed
   end
 
-  test "adding as friend only works one way" do
+  test 'adding as friend only works one way' do
     member1 = wednesday_member
     member2 = friend_of_wednesday_member
 
@@ -18,5 +18,4 @@ class MemberTest < ActiveSupport::TestCase
     member1.update(friends: [Member.second])
     assert_not member1.friends.blank?
   end
-
 end
