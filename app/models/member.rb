@@ -2,8 +2,9 @@ class Member < ApplicationRecord
   validates :name, :favorite_game, :available_days, presence: true
   validates :name, length: { minimum: 2, maximum: 8 }
 
-  # Says "go to Game table, use id column as the foreign key"
-  belongs_to :favorite_game, class_name: 'Game'
+  # Below says "go to Game table, use id column as the foreign key"
+  # inverse_of has plural "members" because :members belong to one game
+  belongs_to :favorite_game, class_name: 'Game', inverse_of: :members
   has_and_belongs_to_many :available_days, join_table: 'members_weekdays', class_name: 'Weekday'
 
   # Modeled on

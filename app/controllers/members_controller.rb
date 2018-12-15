@@ -15,15 +15,8 @@ class MembersController < ApplicationController
 
     # If you want to customize the json to be rendered in the response, make your own hash and render as json.
     # Or make your own hash and do {}.to_json.
-    success_message_json = {
-      message: 'Member created',
-      name: new_member.name,
-      favorite_game: new_member.favorite_game.name,
-      available_days: new_member.available_days.pluck(:name),
-      friends: new_member.friends.pluck(:name)
-    }
 
-    render json: create_return_json(new_member, success_message_json)
+    render json: create_return_json(new_member, member_to_json(new_member, 'Member created'))
   end
 
   def delete
@@ -64,6 +57,16 @@ class MembersController < ApplicationController
 
   def create_return_json(error_check_object, success_message)
     error_check_object.errors.messages.presence ? error_check_object.errors.messages : { message: success_message }
+  end
+
+  def member_to_json(member, custom_message = '')
+    {
+      message: custom_message,
+      name: member.name,
+      favorite_game: member.favorite_game.name,
+      available_days: member.available_days.pluck(:name),
+      friends: member.friends.pluck(:name)
+    }
   end
 
   # Passing an array as strong params can be done by declaring an empty array, as below.
