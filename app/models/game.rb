@@ -1,5 +1,6 @@
 class Game < ApplicationRecord
   validates :name, presence: true, uniqueness: true
-
-  has_many :members, foreign_key: 'favorite_game'
+  # Dependent options:
+  # https://alexhandley.co.uk/rails-dependent-associations/
+  has_many :members, foreign_key: 'favorite_game', dependent: :nullify
 end
